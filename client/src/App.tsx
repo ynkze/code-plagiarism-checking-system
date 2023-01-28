@@ -1,32 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+import React, { useState } from 'react'
+import AceEditor from 'react-ace'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [code, setCode] = useState('')
+
+  async function handleRunCode(e:React.FormEvent) {
+    e.preventDefault();
+    await fetch('', {
+      method: 'POST',
+      body: JSON.stringify({
+        code
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    setCode('')
+  }
 
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <form>
+        <AceEditor
+          name='editor' 
+          mode='csharp'
+          theme='terminal'
+          fontSize={20}
+          defaultValue='hello world'
+        />
+
+        <input type='submit' value='Run' onClick={handleRunCode} />
+      </form>
     </div>
   )
 }
