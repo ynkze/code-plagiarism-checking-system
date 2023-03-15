@@ -32,8 +32,8 @@ body {
   padding: 0;
   display: flex;
   place-items: center;
-  /* min-width: 320px;
-  min-height: 100vh; */
+  min-width: 320px;
+  min-height: 100vh;
 }
 
 h1 {
@@ -73,62 +73,13 @@ button:focus-visible {
   }
 }
 
-/* for split pane */
-.split-pane-col {
-  width: 50vw;
-  height: 90vh;
+.navLeft {
+  margin-right: auto;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
 }
 
-.split-pane-row {
-  width: 95vw;
-  height: 90vh;
+.navRight {
   display: flex;
-  flex-direction: row;
-}
-
-.split-pane-top,
-.split-pane-bottom,
-.split-pane-right,
-.split-pane-left {
-  flex: 1;
-  overflow-x: hidden;
-  overflow-y: scroll hidden;
-}
-
-.split-pane-right {
-  background-color: black;
-  background-size: 100% 1.2em;
-}
-
-.split-pane-top,
-.split-pane-bottom {
-  background-color: rgb(0, 0, 38);
-  text-align: left;
-  padding: 2%;
-}
-
-.rightPaneBottom {
-  display:flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
-
-.runCodeButton {
-  width: 5em;
-  height: 2em;
-  margin-right: 1em;
-  background-color: white;
-  color: black;
-}
-
-.separator-col {
-  border: 10px solid black;
-  cursor: col-resize;
-}
-
-.separator-row {
-  border: 10px solid black;
-  cursor: row-resize;
+  margin-left: auto;
 }

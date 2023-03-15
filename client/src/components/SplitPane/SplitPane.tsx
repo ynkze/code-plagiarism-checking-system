@@ -63,13 +63,13 @@ const SplitPane = ({ children, ...props }) => {
   );
 };
 
-export const Divider = (props) => {
+export const Divider = (props: any) => {
   const { onMouseHoldDown } = useContext(SplitPaneContext);
 
   return <div {...props} onMouseDown={onMouseHoldDown} />;
 };
 
-export const SplitPaneTop = (props) => {
+export const SplitPaneTop = (props: any) => {
   const topRef = useRef(0);
   const { clientHeight, setClientHeight } = useContext(SplitPaneContext);
 
@@ -85,20 +85,12 @@ export const SplitPaneTop = (props) => {
 
   return (
     <div {...props} className="split-pane-top" ref={topRef}>
-      <h1>Question</h1>
-      <h1>Question</h1>
-      <h1>Question</h1>
-      <h1>Question</h1>
-      <h1>Question</h1>
-      <h1>Question</h1>
-      <h1>Question</h1>
-      <h1>Question</h1>
-      <h1>Question</h1>
+      <h2>Question</h2>
     </div>
   );
 };
 
-export const SplitPaneBottom = (props) => {
+export const SplitPaneBottom = (props: any) => {
   // const { currQuote } = useContext(QuoteContext);
   return (
     <div {...props} className="split-pane-bottom">
@@ -107,7 +99,7 @@ export const SplitPaneBottom = (props) => {
   );
 };
 
-export const SplitPaneLeft = (props) => {
+export const SplitPaneLeft = (props: any) => {
   const topRef = useRef(0);
   const { clientWidth, setClientWidth } = useContext(SplitPaneContext);
 
@@ -124,7 +116,7 @@ export const SplitPaneLeft = (props) => {
   return <div {...props} className="split-pane-left" ref={topRef} />;
 };
 
-export const SplitPaneRight = (props) => {
+export const SplitPaneRight = (props: any) => {
   // const { quotes, currQuote } = useContext(QuoteContext);
   // const quote = quotes.find((el) => el.id === currQuote);
 
