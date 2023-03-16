@@ -1,14 +1,12 @@
-.dropdown-week {
+.dropdown-question {
     width: 200px;
     margin: 15px 20px;
-    position: absolute;
-    top: 0px;
-    left: 175px;
+    position: relative;
     user-select: none;
-    z-index: 9;
+    z-index: 8;
 }
 
-.dropdown-week .dropdown-btn {
+.dropdown-question .dropdown-btn {
     padding: 15px 20px;
     background: white;
     box-shadow: 3px 3px 10px 6px rgba(0, 0, 0, 0.06);
@@ -20,7 +18,7 @@
     border-radius: 25px;
 }
 
-.dropdown-week .dropdown-content {
+.dropdown-question .dropdown-content {
     position: absolute;
     top: 90%;
     left: 5%;
@@ -33,12 +31,12 @@
     
 }
 
-.dropdown-week .dropdown-content .dropdown-item {
+.dropdown-question .dropdown-content .dropdown-item {
     padding: 10px;
     cursor: pointer;
     transition: all 0.2s;
 }
 
-.dropdown-week .dropdown-content .dropdown-item:hover {
+.dropdown-question .dropdown-content .dropdown-item:hover {
     background: #f4f4f4;
 }

@@ -11,13 +11,11 @@ import SplitPane, {
   SplitPaneRight,
   SplitPaneTop,
 } from "../../components/SplitPane/SplitPane"
-import CodeContext from '../../components/SplitPane/CodeContext'
+import { Question } from '../../App'
 
-const quotes = [{}]
 const defaultCode: string = "#include \<stdio.h\> \n\nint main() \{ \n\tprintf(\"this is boilerplate of c \")\; \n\treturn 0\; \n\}"
 
-function HomePage() {
-  const [currQuote, setCurrQuote] = useState(1)
+function HomePage(props) {
   const [code, setCode] = useState(defaultCode)
 
   async function handleRunCode(e:React.FormEvent) {
@@ -36,7 +34,6 @@ function HomePage() {
       });
 
       setCode(defaultCode)
-       
       // save code to mongodb
 
       // process the token?
@@ -51,43 +48,41 @@ function HomePage() {
 
   return (
     <div className="main">
-      <CodeContext.Provider value={{ quotes, currQuote, setCurrQuote }}>
-        <SplitPane className="split-pane-row">
-          <SplitPaneLeft>
-            <SplitPane className="split-pane-col">
-              <SplitPaneTop />
-              <Divider className="separator-row" />
-              <SplitPaneBottom />
-            </SplitPane>
-          </SplitPaneLeft>
-          <Divider className="separator-col" />
+      <SplitPane className="split-pane-row">
+        <SplitPaneLeft>
+          <SplitPane className="split-pane-col">
+            <SplitPaneTop question={props.question} setQuestion={props.setQuestion} questionsList={props.questionsList} />
+            <Divider className="separator-row" />
+            <SplitPaneBottom />
+          </SplitPane>
+        </SplitPaneLeft>
+        <Divider className="separator-col" />
 
-          <SplitPaneRight>
-            <div className='rightPane'>
-              <form id='codeEditor'>
-                <AceEditor
-                  mode='c_cpp'
-                  theme='monokai'
-                  fontSize={20}
-                  defaultValue={defaultCode}
-                  width='72vw'
-                  height='85vh'
-                  onChange={(code: string) => {
-                    setCode(code);
-                  }}
-                />
-              </form>
+        <SplitPaneRight>
+          <div className='rightPane'>
+            <form id='codeEditor'>
+              <AceEditor
+                mode='c_cpp'
+                theme='monokai'
+                fontSize={20}
+                defaultValue={defaultCode}
+                width='72vw'
+                height='84vh'
+                onChange={(code: string) => {
+                  setCode(code);
+                }}
+              />
+            </form>
+
+            <div className='rightPaneBottom'>
+              <input form='codeEditor' className='runCodeButton' type='submit' value='Run' onClick={handleRunCode}/>
             </div>
-          </SplitPaneRight>
-        </SplitPane>
-      </CodeContext.Provider>
+          </div>
+        </SplitPaneRight>
+      </SplitPane>
     </div>
   )
 }
 
-
-{/* <div className='rightPaneBottom'>
-<input form='codeEditor' className='runCodeButton' type='submit' value='Run' onClick={handleRunCode}/>
-</div> */}
 
 export default HomePage

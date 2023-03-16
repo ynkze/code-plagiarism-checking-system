@@ -6,12 +6,10 @@ import {
 import DropdownWeek from '../DropdownWeek/DropdownWeek'
 import ntuLogo from '../../assets/ntu-logo.png'
 
-function Navbar() {
-    const [selected, setSelected] = useState('Choose week')
-
+function Navbar({handleChangeWeek}) {
     return (
     <>
-        <DropdownWeek selected={selected} setSelected={setSelected}/>
+        <DropdownWeek handleChangeWeek={handleChangeWeek}/>
         <Nav>
             <div className='navLeft'>
                 <img className='ntuLogo' src={ntuLogo} />

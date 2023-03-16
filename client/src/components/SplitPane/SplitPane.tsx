@@ -5,10 +5,10 @@ import React, {
     useRef,
     useState
 } from "react";
-import CodeContext from "./CodeContext";
+import DropdownQuestion from "../DropdownQuestion/DropdownQuestion";
 import SplitPaneContext from "./SplitPaneContext"
   
-const SplitPane = ({ children, ...props }) => {
+function SplitPane({ children, ...props }) {
   const [clientHeight, setClientHeight] = useState(0);
   const [clientWidth, setClientWidth] = useState(0);
   const yDividerPos: any = useRef(null);
@@ -63,13 +63,13 @@ const SplitPane = ({ children, ...props }) => {
   );
 };
 
-export const Divider = (props: any) => {
+export function Divider(props: any) {
   const { onMouseHoldDown } = useContext(SplitPaneContext);
 
   return <div {...props} onMouseDown={onMouseHoldDown} />;
 };
 
-export const SplitPaneTop = (props: any) => {
+export function SplitPaneTop(props: any) {
   const topRef = useRef(0);
   const { clientHeight, setClientHeight } = useContext(SplitPaneContext);
 
@@ -85,13 +85,13 @@ export const SplitPaneTop = (props: any) => {
 
   return (
     <div {...props} className="split-pane-top" ref={topRef}>
-      <h2>Question</h2>
+      <DropdownQuestion setQuestion={props.setQuestion} questionsList={props.questionsList}/>
+      {props.question && props.question.title}
     </div>
   );
 };
 
-export const SplitPaneBottom = (props: any) => {
-  // const { currQuote } = useContext(QuoteContext);
+export function SplitPaneBottom(props: any)  {
   return (
     <div {...props} className="split-pane-bottom">
       <div>Test case:</div>
@@ -99,7 +99,7 @@ export const SplitPaneBottom = (props: any) => {
   );
 };
 
-export const SplitPaneLeft = (props: any) => {
+export function SplitPaneLeft(props: any) {
   const topRef = useRef(0);
   const { clientWidth, setClientWidth } = useContext(SplitPaneContext);
 
@@ -116,7 +116,7 @@ export const SplitPaneLeft = (props: any) => {
   return <div {...props} className="split-pane-left" ref={topRef} />;
 };
 
-export const SplitPaneRight = (props: any) => {
+export function SplitPaneRight(props: any) {
   // const { quotes, currQuote } = useContext(QuoteContext);
   // const quote = quotes.find((el) => el.id === currQuote);
 
