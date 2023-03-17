@@ -19,6 +19,7 @@ mongoose.connect(process.env.MONGO_URL ?? '')
     app.listen(PORT);
 });
 
+// endpoints to interact with questions
 app.get('/questions', async (req: Request, res: Response) => {
     const questions = await QuestionModel.find({week: req.query.week}).sort({week: 'asc'}).exec()
     res.json(questions)
@@ -37,3 +38,5 @@ app.post('/add_question', async (req: Request, res: Response) => {
     await newQuestion.save();
     res.json(newQuestion)
 });
+
+// endpoints to interact with submissions

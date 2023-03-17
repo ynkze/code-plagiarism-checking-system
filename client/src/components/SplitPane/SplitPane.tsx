@@ -1,10 +1,10 @@
-import React, {
-    createRef,
+import {
     useContext,
     useEffect,
     useRef,
     useState
 } from "react";
+import {Button} from 'antd'
 import DropdownQuestion from "../DropdownQuestion/DropdownQuestion";
 import SplitPaneContext from "./SplitPaneContext"
   
@@ -85,16 +85,32 @@ export function SplitPaneTop(props: any) {
 
   return (
     <div {...props} className="split-pane-top" ref={topRef}>
-      <DropdownQuestion setQuestion={props.setQuestion} questionsList={props.questionsList}/>
-      {props.question && props.question.title}
+        <DropdownQuestion setQuestion={props.setQuestion} questionsList={props.questionsList}/>
+        <h2>{props.question && props.question.title}</h2>
+        {props.question && props.question.question}
     </div>
   );
 };
 
 export function SplitPaneBottom(props: any)  {
+  
   return (
     <div {...props} className="split-pane-bottom">
-      <div>Test case:</div>
+      <h2>Test cases</h2>
+      {props.question && props.question.test_case.map((testCase, index) => (
+      <div>
+        <b><u>Input {index+1}:</u></b> {testCase}
+        <br />
+        <b><u>Expected output:</u></b> {props.question.expected_output[index]}
+        <br /><br />
+      </div>
+      ))}
+
+      <div>
+        <input form='codeEditor' className='runCodeButton' type='submit' value='Run' onClick={props.handleRunCode}/>
+        <Button>Run Test</Button>
+        <Button>Submit</Button>
+      </div>
     </div>
   );
 };

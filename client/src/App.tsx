@@ -3,6 +3,7 @@ import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Navbar from './components/NavBar/Navbar'
 import HomePage from './pages/HomePage/HomePage'
+import CheckScore from './pages/CheckScore/CheckScore'
 
 
 export interface Question {
@@ -27,16 +28,6 @@ function App() {
   const [week, setWeek] = useState(1)
   const [question, setQuestion] = useState(BlankQuestion)
   const [questionsList, setQuestionsList] = useState([BlankQuestion])
-
-  // render new question list dropdown
-    useEffect(() => {
-      
-    }, [week])
-
-  // render home page again when question change
-  useEffect(() => {
-
-  }, [question])
 
   async function handleChangeWeek(weekNum: String) {
     try {
@@ -67,7 +58,7 @@ function App() {
         <Navbar handleChangeWeek={handleChangeWeek}/>
         <Routes>
           <Route path='/' element={<HomePage question={question} setQuestion={setQuestion} questionsList={questionsList} />} />
-          {/* <Route path='/check_score' element={<CheckScore />}/> */}
+          <Route path='/score' element={<CheckScore />}/>
         </Routes>
       </Router>
     </div>

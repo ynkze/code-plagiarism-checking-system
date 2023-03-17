@@ -1,0 +1,12 @@
+.main {
+    box-sizing: border-box;
+    position: absolute;
+    top: 10%;
+    left: 1%;
+
+    width: 98vw;
+    height: 88vh;
+    display: flex;
+    flex-direction: row;
+    background: rgb(0, 0, 38);
+  }
