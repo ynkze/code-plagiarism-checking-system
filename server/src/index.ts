@@ -41,15 +41,13 @@ app.post('/login', async (req: Request, res: Response) => {
 
     if (await bcrypt.compare(password, user.password)){
         const jwtToken = jwt.sign({userid: user.userid}, process.env.JWT_SECRET)
-        console.log("hello1")
         return res.json({message: 'Success', token:jwtToken})
     } else {
-        console.log("hello2")
         return res.status(400).json({message: "Email or password does not match"})
     }
 })
 
-// endpoints to add new user
+// user management endpoint
 app.post('/add_user', async (req: Request, res: Response) => {
     try {
         const hashPw = await bcrypt.hash(req.body.password, 10)
@@ -65,7 +63,7 @@ app.post('/add_user', async (req: Request, res: Response) => {
     }
 });
 
-// endpoints to interact with questions
+// questions endpoint
 app.get('/questions', async (req: Request, res: Response) => {
     const questions = await QuestionModel.find({week: req.query.week}).sort({week: 'asc'}).exec()
     res.json(questions)
@@ -85,4 +83,16 @@ app.post('/add_question', async (req: Request, res: Response) => {
     res.json(newQuestion)
 });
 
-// endpoints to interact with submissions
+// submissions endpoint
+app.post('/submit', async (req: Request, res: Response) => {
+    const newSubmission = new SubmissionModel({
+        title: req.body.title,
+        week: req.body.week,
+        number: req.body.number,
+        score: req.body.score,
+        name: req.body.name,
+        code: req.body.code,
+    });
+    await newSubmission.save();
+    res.json(newSubmission)
+});

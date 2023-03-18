@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import { RequireAuth } from 'react-auth-kit'
@@ -27,9 +27,15 @@ const BlankQuestion: Question = {
 }
 
 function App() {
+  const [user, setUser] = useState('')
   const [week, setWeek] = useState(1)
   const [question, setQuestion] = useState(BlankQuestion)
   const [questionsList, setQuestionsList] = useState([BlankQuestion])
+
+  useEffect(() => {
+    setUser(user)
+    console.log(user)
+  }, [user])
 
   async function handleChangeWeek(weekNum: String) {
     try {
@@ -59,12 +65,12 @@ function App() {
       <Navbar handleChangeWeek={handleChangeWeek}/>
       <Routes>
         <Route path='/' element={<RequireAuth loginPath='/login'>
-          <HomePage question={question} setQuestion={setQuestion} questionsList={questionsList} />
+          <HomePage question={question} setQuestion={setQuestion} questionsList={questionsList} user={user} />
         </RequireAuth>}/>
         <Route path='/score' element={<RequireAuth loginPath='/login'>
           <CheckScore />
         </RequireAuth>}/>
-        <Route path='/login' element={<Login />}></Route>
+        <Route path='/login' element={<Login setUser={setUser}/>}></Route>
         {/* <Route path='/logout' element={<Logout />}></Route> */}
       </Routes>
     </div>

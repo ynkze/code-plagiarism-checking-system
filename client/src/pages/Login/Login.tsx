@@ -42,9 +42,10 @@ function Login(props: any) {
         authState: { userid: values.userid },
       });
 
+      props.setUser(formik.values.userid)
       navigate('/')
     } catch (err :any) {
-        setError(err.message);
+        setError(err);
     }
   };
 

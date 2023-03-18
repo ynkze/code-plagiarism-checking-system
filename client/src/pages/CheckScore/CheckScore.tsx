@@ -10,7 +10,7 @@ function CheckScore() {
             <div>
                 <h2>Select method:</h2>
             </div>
-            <Button>Run</Button>
+            <Button kind='secondary'>Run</Button>
         </div>
     )
 }

@@ -5,7 +5,9 @@ import { useState } from 'react';
 export default function DropdownWeek({ handleChangeWeek }) {
     const [isActive, setIsActive] = useState(false)
     const [selected, setSelected] = useState('Choose week')
-    const options = ['Week 1', 'Week 2', 'Week 3']
+    const options = [
+        'Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 
+        'Week 7', 'Week 8', 'Week 9', 'Week 10', 'Week 11', 'Week 12', 'Week 13', ]
 
     return (
         <div className='dropdown-week'>

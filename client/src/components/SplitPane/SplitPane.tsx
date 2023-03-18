@@ -4,7 +4,7 @@ import {
     useRef,
     useState
 } from "react";
-import {Button} from 'baseui/button'
+import { Button } from 'baseui/button'
 import DropdownQuestion from "../DropdownQuestion/DropdownQuestion";
 import SplitPaneContext from "./SplitPaneContext"
   
@@ -107,9 +107,8 @@ export function SplitPaneBottom(props: any)  {
       ))}
 
       <div>
-        <input form='codeEditor' className='runCodeButton' type='submit' value='Run' onClick={props.handleRunCode}/>
-        <Button>Run Test</Button>
-        <Button>Submit</Button>
+        <Button form='codeEditor' onClick={props.handleRunTest} kind='secondary'>Run Test</Button>
+        <Button form='codeEditor' onClick={props.handleSubmitCode} kind='secondary' style={{marginLeft: '10px'}}>Submit</Button>
       </div>
     </div>
   );

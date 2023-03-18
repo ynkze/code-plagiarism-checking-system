@@ -2,10 +2,6 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const QuestionSchema = new Schema({
-  number: {
-    type: Number,
-    required: true
-  },
   title: {
     type: String,
     required: true
@@ -16,6 +12,10 @@ const QuestionSchema = new Schema({
   },
   sample: String,
   week: {
+    type: Number,
+    required: true
+  },
+  number: {
     type: Number,
     required: true
   },

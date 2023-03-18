@@ -7,15 +7,15 @@
 
 .split-pane-col {
   width: 50vw;
-  height: 89vh;
+  height: 898h;
   display: flex;
   flex-direction: column;
   overflow-y: hidden;
 }
 
 .split-pane-row {
-  width: 97vw;
-  height: 89vh;
+  width: 96vw;
+  height: 88vh;
   display: flex;
   flex-direction: row;
 }

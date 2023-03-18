@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-// import { Modal } from 'baseui/modal'
 import { Buffer } from 'buffer'
 import AceEditor from 'react-ace'
 import 'ace-builds/src-noconflict/mode-c_cpp'
@@ -15,49 +14,110 @@ import './HomePage.css'
 
 const defaultCode: string = "#include \<stdio.h\> \n\nint main() \{ \n\tprintf(\"this is boilerplate of c \")\; \n\treturn 0\; \n\}"
 
-function HomePage(props) {
+function HomePage(props: any) {
   const [code, setCode] = useState(defaultCode)
   const [showRunModal, setShowRunModal] = React.useState(false)
   const [showSubmitModal, setShowSubmitModal] = React.useState(false)
 
-  async function handleRunCode(e:React.FormEvent) {
+  var score = 0
+  async function handleRunTest(e:React.FormEvent) {
     e.preventDefault();
     try {
-      // get token from judge0
-      const tokenSubmit =  await fetch('http://localhost:2358/submissions/?base64_encoded=true', {
+      // get test cases and compile the request to send
+      const bodyToSend: any = []
+      props.question.test_case.map((testCase: any, index: any) => {
+        console.log((props.question.expected_output[index]))
+        const current = {
+          source_code: Buffer.from(code).toString('base64'),
+          language_id: 50,
+          stdin: Buffer.from(testCase).toString('base64'),
+          expected_output: Buffer.from(props.question.expected_output[index].toString()).toString('base64'),
+        }
+
+        bodyToSend.push(current)
+      })
+
+      // get batch token from judge0
+      const batchTokenRes = await fetch('http://localhost:2358/submissions/batch?base64_encoded=true', {
         method: 'POST',
         body: JSON.stringify({
-          source_code: Buffer.from(code).toString('base64'),
-          language_id: 50
+          submissions: bodyToSend
         }),
         headers: {
           'Content-Type': 'application/json'
         }
-      });
+      }).then((tokens) => {
+        return tokens.json()
+      })
+
+      // send token to process score
+      var batchToken: Array<String> = []
+      batchTokenRes.map((token: any) => {
+        batchToken.push(token.token)
+      })
+
+      score = 0
+      setTimeout(async() => {
+        const batchRes = await fetch(`http://localhost:2358/submissions/batch?tokens=${batchToken.join(',')}&base64_encoded=true`)
+        .then((res) => {
+          return res.json()
+        })
+        batchRes.submissions.map((res: any) => {
+          if (res.status.description=='Accepted'){
+            score += 1
+          }
+        })
+      }, 2000)
 
       setCode(defaultCode)
       setShowRunModal(true)
-      // save code to mongodb
-
-      // process the token?
     } catch (error) {
       console.error(`ERROR: ${error}`)
     }
   }
 
   async function handleSubmitCode(e:React.FormEvent) {
-    
+    e.preventDefault();
+    if (score == 0) handleRunTest
+    try {
+      await fetch('http://localhost:5000/submit', {
+      method: 'POST',
+      body: JSON.stringify({
+        title: props.question.title,
+        week: props.question.week,
+        number: props.question.number,
+        score: score, 
+        name: props.user,
+        code: code,
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((res) => {
+      console.log(res.json())
+    })
+  } catch (error) {
+    console.error(`ERROR: ${error}`)
+    }
   }
 
   return (
     <>
+    {/* <Modal
+      onClose={() => setShowRunModal(false)}
+      open={showRunModal}
+      center={true}
+      animationDuration={300}
+    >
+      hello
+    </Modal> */}
     <div className="main">
       <SplitPane className="split-pane-row">
         <SplitPaneLeft>
           <SplitPane className="split-pane-col">
             <SplitPaneTop question={props.question} setQuestion={props.setQuestion} questionsList={props.questionsList} />
             <Divider className="separator-row" />
-            <SplitPaneBottom question={props.question} handleRunCode={handleRunCode} />
+            <SplitPaneBottom question={props.question} handleRunTest={handleRunTest} handleSubmitCode={handleSubmitCode} />
 
           </SplitPane>
         </SplitPaneLeft>
