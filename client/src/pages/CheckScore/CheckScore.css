@@ -1,12 +1,17 @@
 .main {
-    box-sizing: border-box;
     position: absolute;
     top: 10%;
     left: 1%;
 
-    width: 98vw;
-    height: 88vh;
+    width: 97vw;
+    height: 89vh;
+    background: white;
+    padding: 0px 30px;
     display: flex;
-    flex-direction: row;
-    background: rgb(0, 0, 38);
-  }
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+div {
+    text-align: start;
+}

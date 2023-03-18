@@ -11,8 +11,10 @@ const SubmissionSchema = new Schema({
     type: String,
     required: true
   },
+}, {
+  collection: 'submissions'
 });
 
-const SubmissionModel = mongoose.model('Submission', SubmissionSchema);
+const SubmissionModel = mongoose.model('submissions', SubmissionSchema);
 
 export default SubmissionModel;

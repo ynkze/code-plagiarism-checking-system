@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import './App.css'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Routes, Route, useNavigate } from 'react-router-dom'
+import { RequireAuth } from 'react-auth-kit'
 import Navbar from './components/NavBar/Navbar'
+import { Login } from './pages/Login/Login'
 import HomePage from './pages/HomePage/HomePage'
 import CheckScore from './pages/CheckScore/CheckScore'
 
@@ -54,13 +56,17 @@ function App() {
 
   return (
     <div className='App'>
-      <Router>
-        <Navbar handleChangeWeek={handleChangeWeek}/>
-        <Routes>
-          <Route path='/' element={<HomePage question={question} setQuestion={setQuestion} questionsList={questionsList} />} />
-          <Route path='/score' element={<CheckScore />}/>
-        </Routes>
-      </Router>
+      <Navbar handleChangeWeek={handleChangeWeek}/>
+      <Routes>
+        <Route path='/' element={<RequireAuth loginPath='/login'>
+          <HomePage question={question} setQuestion={setQuestion} questionsList={questionsList} />
+        </RequireAuth>}/>
+        <Route path='/score' element={<RequireAuth loginPath='/login'>
+          <CheckScore />
+        </RequireAuth>}/>
+        <Route path='/login' element={<Login />}></Route>
+        {/* <Route path='/logout' element={<Logout />}></Route> */}
+      </Routes>
     </div>
   );
 }

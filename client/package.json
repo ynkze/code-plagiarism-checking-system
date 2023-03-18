@@ -10,15 +10,19 @@
   },
   "dependencies": {
     "ace-builds": "^1.14.0",
-    "antd": "^5.3.1",
+    "baseui": "^12.2.0",
     "buffer": "^6.0.3",
+    "formik": "^2.2.9",
     "react": "^18.2.0",
     "react-ace": "^10.1.0",
+    "react-auth-kit": "^2.8.2",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
     "react-router-dom": "^6.9.0",
     "styled": "^1.0.0",
-    "styled-components": "^5.3.9"
+    "styled-components": "^5.3.9",
+    "styletron-engine-atomic": "^1.5.0",
+    "styletron-react": "^6.1.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.24",

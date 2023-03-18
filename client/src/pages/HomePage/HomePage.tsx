@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Modal } from 'antd'
+// import { Modal } from 'baseui/modal'
 import { Buffer } from 'buffer'
 import AceEditor from 'react-ace'
 import 'ace-builds/src-noconflict/mode-c_cpp'
@@ -51,20 +51,6 @@ function HomePage(props) {
 
   return (
     <>
-    <Modal
-      open={showRunModal}
-      title="Result Running Test Case"
-      onCancel={()=>setShowRunModal(false)}
-      onOk={() => setShowRunModal(false)}>
-        
-    </Modal>
-    <Modal
-      open={showSubmitModal}
-      title="Are you sure you want to submit?"
-      onCancel={()=>setShowSubmitModal(false)}
-      onOk={() => setShowSubmitModal(false)}> 
-    </Modal>
-
     <div className="main">
       <SplitPane className="split-pane-row">
         <SplitPaneLeft>

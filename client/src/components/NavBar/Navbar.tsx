@@ -1,3 +1,5 @@
+import { useSignOut } from "react-auth-kit";
+import { useNavigate } from "react-router-dom";
 import {
   Nav,
   NavLink
@@ -6,6 +8,14 @@ import DropdownWeek from '../DropdownWeek/DropdownWeek'
 import ntuLogo from '../../assets/ntu-logo.png'
 
 function Navbar({handleChangeWeek}) {
+    const signOut = useSignOut();
+    const navigate = useNavigate();
+  
+    const logout = () => {
+      signOut();
+      navigate("/login");
+    };
+
     return (
     <>
         <DropdownWeek handleChangeWeek={handleChangeWeek}/>
@@ -21,7 +31,7 @@ function Navbar({handleChangeWeek}) {
                 <NavLink to='/score'>
                     Check Score
                 </NavLink>
-                <NavLink to='/logout'>
+                <NavLink to='/login' onClick={logout}>
                     Logout
                 </NavLink>
             </div>
