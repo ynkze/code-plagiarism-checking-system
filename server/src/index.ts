@@ -20,6 +20,11 @@ app.use(cors({
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
+const MossClient = require('../algorithms/moss')
+const mossId = process.env.MOSS_ID ? process.env.MOSS_ID : '290701924'
+var fs  = require("fs");
+const tmp = require('tmp')
+
 mongoose.connect(process.env.MONGO_URL ?? '')
 .then(() => {
     app.listen(PORT);
@@ -96,3 +101,46 @@ app.post('/submit', async (req: Request, res: Response) => {
     await newSubmission.save();
     res.json(newSubmission)
 });
+
+// plagiarism algo endpoint
+app.get('/run_algo', async (req: Request, res: Response) => {
+    // depending on week query submission
+    const submissions = await SubmissionModel.find({week: req.query.week}).exec()
+
+    // depending on method run diff algo
+    switch (Number(req.query.method)){
+        case 0: // Levenschtein 
+
+        case 1: // MOSS
+            try {
+                const client = new MossClient("c", mossId)
+                client.setComment('Week ' + req.query.week)
+                // create a tmp dir stopring file for each submission and add to MOSS script
+                const tmpobj = tmp.dirSync();
+                submissions.map(async(submission) => {
+                    await tmp.file({tmpdir: tmpobj.name, keep: true, prefix: "code", postfix: ".c"}, function _tempFileCreated(err: any, path: any, fd: any, cleanUpCallback: any) {
+                        if (err) throw err;
+            
+                        fs.appendFile(path, submission.code, function (err: any) {
+                            if (err)
+                            throw err
+                            }
+                        );
+                        client.addFile(path, submission.name)
+                    })
+                })
+
+                // get the url to view result and cleanup
+                var url = await client.process()
+                res.json(url)
+                // tmpobj.removeCallback();
+
+            } catch (e: any) {
+                console.log("Error with MOSS submission: ", e.message)
+            }
+            break
+        
+        default:
+            console.log("defaulted")
+    }
+})

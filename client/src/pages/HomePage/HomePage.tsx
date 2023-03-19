@@ -26,7 +26,6 @@ function HomePage(props: any) {
       // get test cases and compile the request to send
       const bodyToSend: any = []
       props.question.test_case.map((testCase: any, index: any) => {
-        console.log((props.question.expected_output[index]))
         const current = {
           source_code: Buffer.from(code).toString('base64'),
           language_id: 50,
@@ -51,7 +50,7 @@ function HomePage(props: any) {
       })
 
       // send token to process score
-      var batchToken: Array<String> = []
+      var batchToken: Array<string> = []
       batchTokenRes.map((token: any) => {
         batchToken.push(token.token)
       })

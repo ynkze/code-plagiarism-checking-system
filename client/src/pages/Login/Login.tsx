@@ -23,15 +23,15 @@ function Login(props: any) {
       const response = await fetch(
         "http://localhost:5000/login",
         {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(values)
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(values)
         }
       );
 
-      if (response.status !== 200){
+      if (response.status !== 200) {
         throw "Email or password mismatch"
       }
 
@@ -44,8 +44,8 @@ function Login(props: any) {
 
       props.setUser(formik.values.userid)
       navigate('/')
-    } catch (err :any) {
-        setError(err);
+    } catch (err: any) {
+      setError(err);
     }
   };
 

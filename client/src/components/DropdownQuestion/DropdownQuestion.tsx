@@ -1,6 +1,6 @@
 import './DropdownQuestion.css'
 import { FaCaretDown } from 'react-icons/fa'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Question } from '../../App'
 
 export default function DropdownQuestion(props) {

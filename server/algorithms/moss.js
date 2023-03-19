@@ -98,12 +98,19 @@ class MossClient {
             fs.readFile(fileObj.path, "utf-8", (err, data) => {
                 if(err)
                     reject(err)
-            
-                let newdata = data.replace(/[^a-zA-Z0-9\t\n ./,<>?;:"'`!@#$%^&*()\[\]{}_+=|\\-]/g, '')
-                let writing = `file ${fileId} ${this.opts.l} ${Buffer.byteLength(newdata)} ${fileObj.description}\n`
-                socket.write(writing)
-                socket.write(newdata)
-                console.log("Written " + writing)
+                
+                if (data != undefined) {
+                    // let newdata = data.replace(/[^a-zA-Z0-9\t\n ./,<>?;:"'`!@#$%^&*()\[\]{}_+=|\\-]/g, '')
+                    // let writing = `file ${fileId} ${this.opts.l} ${Buffer.byteLength(newdata)} ${fileObj.description}\n`
+                    // socket.write(writing)
+                    // socket.write(newdata)
+
+                    let writing = `file ${fileId} ${this.opts.l} ${Buffer.byteLength(data)} ${fileObj.description}\n`
+                    socket.write(writing)
+                    socket.write(data)
+                    console.log(data)
+                }
+                
                 resolve()
             })
         })

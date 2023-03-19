@@ -9,10 +9,10 @@ import CheckScore from './pages/CheckScore/CheckScore'
 
 
 export interface Question {
-  number: Number,
-  title: String,
-  question: String,
-  sample: String,
+  number: number,
+  title: string,
+  question: string,
+  sample: string,
   test_case: Array<any>,
   expected_output: Array<any>
 }
@@ -34,10 +34,9 @@ function App() {
 
   useEffect(() => {
     setUser(user)
-    console.log(user)
   }, [user])
 
-  async function handleChangeWeek(weekNum: String) {
+  async function handleChangeWeek(weekNum: string) {
     try {
       // get questions for the week
       const weekQuestions =  await fetch('http://localhost:5000/questions?week='+weekNum, {
