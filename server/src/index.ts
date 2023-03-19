@@ -17,20 +17,15 @@ app.use(cors({
     origin: '*'
 }));
 
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
-
-const MossClient = require('../algorithms/moss')
-const mossId = process.env.MOSS_ID ? process.env.MOSS_ID : '290701924'
-var fs  = require("fs");
-const tmp = require('tmp')
-
 mongoose.connect(process.env.MONGO_URL ?? '')
 .then(() => {
     app.listen(PORT);
 });
 
 // login endpoint
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
+
 app.post('/login', async (req: Request, res: Response) => { 
     const { userid, password } = req.body
     const user: any = await UserModel.findOne({userid: userid}).catch(
@@ -103,21 +98,48 @@ app.post('/submit', async (req: Request, res: Response) => {
 });
 
 // plagiarism algo endpoint
+const {distance} = require('fastest-levenshtein')
+
+
+const MossClient = require('../algorithms/moss')
+const mossId = process.env.MOSS_ID ? process.env.MOSS_ID : '290701924'
+var fs  = require("fs");
+const tmp = require('tmp')
+
 app.get('/run_algo', async (req: Request, res: Response) => {
     // depending on week query submission
-    const submissions = await SubmissionModel.find({week: req.query.week}).exec()
+    const submissions: any = await SubmissionModel.find({week: req.query.week}).exec()
+
 
     // depending on method run diff algo
     switch (Number(req.query.method)){
-        case 0: // Levenschtein 
+        case 0: // Levenschtein
+            var codeMatch: Array<number> = []
+            for (var i=0; i<submissions.length; i++){
+                var maxDist = 0
+                var current = 0
+                for (var j=0; j < submissions.length; j++) {    
+                    if (i != j){
+                        current = distance(submissions[i].code, submissions[j].code)
+                        Math.max(maxDist, current)
+                    }        
+                }
+                codeMatch.push(maxDist)
+            }
 
+            submissions.map((submission: any) => {
+                submission["match_score"] = (maxDist/(submission.code.length)).toFixed(2)
+            }) // to fix: adding new property to json
+
+            res.json(submissions)
+            break
         case 1: // MOSS
             try {
                 const client = new MossClient("c", mossId)
                 client.setComment('Week ' + req.query.week)
                 // create a tmp dir stopring file for each submission and add to MOSS script
                 const tmpobj = tmp.dirSync();
-                submissions.map(async(submission) => {
+                submissions.map(async(submission: any) => {
                     await tmp.file({tmpdir: tmpobj.name, keep: true, prefix: "code", postfix: ".c"}, function _tempFileCreated(err: any, path: any, fd: any, cleanUpCallback: any) {
                         if (err) throw err;
             
