@@ -1,13 +1,14 @@
-.main {
+.home {
   box-sizing: border-box;
   position: absolute;
   top: 10%;
   left: 1%;
+  background: rgb(0, 0, 38);;
 }
 
 .split-pane-col {
   width: 50vw;
-  height: 898h;
+  height: 89vh;
   display: flex;
   flex-direction: column;
   overflow-y: hidden;
@@ -25,8 +26,7 @@
 .split-pane-right,
 .split-pane-left {
   flex: 1;
-  overflow-x: hidden;
-  overflow-y: scroll hidden;
+  overflow: hidden;
 }
 
 .split-pane-right {

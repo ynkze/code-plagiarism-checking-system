@@ -101,7 +101,7 @@ app.post('/submit', async (req: Request, res: Response) => {
 const {distance} = require('fastest-levenshtein')
 
 
-const MossClient = require('../algorithms/moss')
+const MossClient = require('./moss')
 const mossId = process.env.MOSS_ID ? process.env.MOSS_ID : '290701924'
 var fs  = require("fs");
 const tmp = require('tmp')
@@ -109,7 +109,6 @@ const tmp = require('tmp')
 app.get('/run_algo', async (req: Request, res: Response) => {
     // depending on week query submission
     const submissions: any = await SubmissionModel.find({week: req.query.week}).exec()
-
 
     // depending on method run diff algo
     switch (Number(req.query.method)){
@@ -121,18 +120,19 @@ app.get('/run_algo', async (req: Request, res: Response) => {
                 for (var j=0; j < submissions.length; j++) {    
                     if (i != j){
                         current = distance(submissions[i].code, submissions[j].code)
-                        Math.max(maxDist, current)
+                        maxDist = Math.max(maxDist, current)
                     }        
                 }
                 codeMatch.push(maxDist)
             }
 
-            submissions.map((submission: any) => {
-                submission["match_score"] = (maxDist/(submission.code.length)).toFixed(2)
-            }) // to fix: adding new property to json
-
+            submissions.map((submission: any, index: number) => {
+                submission["match_score"] = (codeMatch[index]/(submission.code.length)).toFixed(2)
+                console.log((codeMatch[index]/(submission.code.length)).toFixed(2))
+            })
             res.json(submissions)
             break
+
         case 1: // MOSS
             try {
                 const client = new MossClient("c", mossId)
@@ -140,7 +140,8 @@ app.get('/run_algo', async (req: Request, res: Response) => {
                 // create a tmp dir stopring file for each submission and add to MOSS script
                 const tmpobj = tmp.dirSync();
                 submissions.map(async(submission: any) => {
-                    await tmp.file({tmpdir: tmpobj.name, keep: true, prefix: "code", postfix: ".c"}, function _tempFileCreated(err: any, path: any, fd: any, cleanUpCallback: any) {
+                    await tmp.file({tmpdir: tmpobj.name, keep: true, prefix: "code", postfix: ".c"}, 
+                        function _tempFileCreated(err: any, path: any, fd: any, cleanUpCallback: any) {
                         if (err) throw err;
             
                         fs.appendFile(path, submission.code, function (err: any) {
@@ -155,7 +156,6 @@ app.get('/run_algo', async (req: Request, res: Response) => {
                 // get the url to view result and cleanup
                 var url = await client.process()
                 res.json(url)
-                // tmpobj.removeCallback();
 
             } catch (e: any) {
                 console.log("Error with MOSS submission: ", e.message)

@@ -34,7 +34,7 @@ function CheckScore() {
     }
 
     return (
-        <div className="main">
+        <div className="scoreMain">
             <div>
                 <br />
                 <h2>Select week:</h2>

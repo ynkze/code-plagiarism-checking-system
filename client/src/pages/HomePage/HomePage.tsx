@@ -110,7 +110,7 @@ function HomePage(props: any) {
     >
       hello
     </Modal> */}
-    <div className="main">
+    <div className="home">
       <SplitPane className="split-pane-row">
         <SplitPaneLeft>
           <SplitPane className="split-pane-col">

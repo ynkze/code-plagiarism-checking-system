@@ -39,7 +39,7 @@ function App() {
   async function handleChangeWeek(weekNum: string) {
     try {
       // get questions for the week
-      const weekQuestions =  await fetch('http://localhost:5000/questions?week='+weekNum, {
+      const weekQuestions = await fetch('http://localhost:5000/questions?week=' + weekNum, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
@@ -49,7 +49,7 @@ function App() {
       setWeek(Number(weekNum))
 
       // set question and dropdown
-      weekQuestions.json().then((res :Array<Question>) => {
+      weekQuestions.json().then((res: Array<Question>) => {
         setQuestion(res[0])
         setQuestionsList(res)
       })
@@ -61,19 +61,19 @@ function App() {
 
   return (
     <div className='App'>
-      <Navbar handleChangeWeek={handleChangeWeek}/>
+      <Navbar handleChangeWeek={handleChangeWeek} />
       <Routes>
         <Route path='/' element={<RequireAuth loginPath='/login'>
           <HomePage question={question} setQuestion={setQuestion} questionsList={questionsList} user={user} />
-        </RequireAuth>}/>
+        </RequireAuth>} />
         <Route path='/score' element={<RequireAuth loginPath='/login'>
           <CheckScore />
-        </RequireAuth>}/>
-        <Route path='/login' element={<Login setUser={setUser}/>}></Route>
+        </RequireAuth>} />
+        <Route path='/login' element={<Login setUser={setUser} />}></Route>
         {/* <Route path='/logout' element={<Logout />}></Route> */}
       </Routes>
     </div>
   );
 }
-  
+
 export default App;

@@ -1,11 +1,11 @@
-.main {
+.scoreMain {
     position: absolute;
     top: 10%;
     left: 1%;
 
     width: 96vw;
     height: 88vh;
-    background: rgb(0, 0, 38);;
+    background: rgb(0, 0, 38);
     padding: 0px 30px;
     display: flex;
     flex-direction: column;

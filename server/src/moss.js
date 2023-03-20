@@ -108,6 +108,7 @@ class MossClient {
                     let writing = `file ${fileId} ${this.opts.l} ${Buffer.byteLength(data)} ${fileObj.description}\n`
                     socket.write(writing)
                     socket.write(data)
+                    console.log(data)
                 }
                 
                 resolve()
