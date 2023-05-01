@@ -6,9 +6,9 @@ export default function DropdownMethod({handleChangeMethod}) {
     const [isActive, setIsActive] = useState(false)
     const [selected, setSelected] = useState('Choose method')
     const options = [
-        'Basic (Levenschtein Distance)',
-        'Intermediate',
-        'Advanced']
+        'Levenschtein Distance',
+        'MOSS'
+    ]
 
     return (
         <div className='dropdown-method'>

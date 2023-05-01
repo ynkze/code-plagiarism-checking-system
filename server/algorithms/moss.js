@@ -4,7 +4,10 @@ const net = require('net')
 
 const moss_host = 'moss.stanford.edu'
 const moss_port = 7690
-const languages = ["c", "cc", "java", "ml", "pascal", "ada", "lisp", "scheme", "haskell", "fortran", "ascii", "vhdl", "perl", "matlab", "python", "mips", "prolog", "spice", "vb", "csharp", "modula2", "a8086", "javascript", "plsql", "verilog"]
+const languages = ["c", "cc", "java", "ml", "pascal", "ada", "lisp", 
+"scheme", "haskell", "fortran", "ascii", "vhdl", "perl", "matlab", 
+"python", "mips", "prolog", "spice", "vb", "csharp", "modula2", 
+"a8086", "javascript", "plsql", "verilog"]
 
 class MossClient {
     constructor(language, userId) {
@@ -105,7 +108,8 @@ class MossClient {
                     // socket.write(writing)
                     // socket.write(newdata)
 
-                    let writing = `file ${fileId} ${this.opts.l} ${Buffer.byteLength(data)} ${fileObj.description}\n`
+                    let writing = `file ${fileId} ${this.opts.l} ${Buffer.byteLength(data)} 
+                        ${fileObj.description}\n`
                     socket.write(writing)
                     socket.write(data)
                 }

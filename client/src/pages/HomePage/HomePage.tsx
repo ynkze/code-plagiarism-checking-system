@@ -10,6 +10,7 @@ import SplitPane, {
   SplitPaneRight,
   SplitPaneTop,
 } from "../../components/SplitPane/SplitPane"
+import { Modal } from 'antd'
 import './HomePage.css'
 
 const defaultCode: string = "#include \<stdio.h\> \n\nint main() \{ \n\tprintf(\"this is boilerplate of c \")\; \n\treturn 0\; \n\}"
@@ -18,11 +19,12 @@ function HomePage(props: any) {
   const [code, setCode] = useState(defaultCode)
   const [showRunModal, setShowRunModal] = React.useState(false)
   const [showSubmitModal, setShowSubmitModal] = React.useState(false)
+  const [score, setScore] = React.useState(0)
 
-  var score = 0
   async function handleRunTest(e:React.FormEvent) {
     e.preventDefault();
     try {
+      setScore(0)
       // get test cases and compile the request to send
       const bodyToSend: any = []
       props.question.test_case.map((testCase: any, index: any) => {
@@ -55,17 +57,20 @@ function HomePage(props: any) {
         batchToken.push(token.token)
       })
 
-      score = 0
       setTimeout(async() => {
         const batchRes = await fetch(`http://localhost:2358/submissions/batch?tokens=${batchToken.join(',')}&base64_encoded=true`)
         .then((res) => {
           return res.json()
         })
+
+        var localScore = 0
         batchRes.submissions.map((res: any) => {
           if (res.status.description=='Accepted'){
-            score += 1
+            localScore += 1
           }
         })
+
+        setScore(localScore)
       }, 2000)
 
       setCode(defaultCode)
@@ -93,7 +98,8 @@ function HomePage(props: any) {
         'Content-Type': 'application/json'
       }
     }).then((res) => {
-      console.log(res.json())
+      setShowSubmitModal(true)
+      return res.json()
     })
   } catch (error) {
     console.error(`ERROR: ${error}`)
@@ -102,14 +108,26 @@ function HomePage(props: any) {
 
   return (
     <>
-    {/* <Modal
-      onClose={() => setShowRunModal(false)}
+    <Modal
+      title={'Run Test Case'}
       open={showRunModal}
-      center={true}
-      animationDuration={300}
+      onCancel={() => {
+        setShowRunModal(false)
+      }}
     >
-      hello
-    </Modal> */}
+      Test case pass: {score}/{props.question.test_case.length}
+    </Modal>
+
+    <Modal
+      title={'Submit Answer'}
+      open={showSubmitModal}
+      onCancel={() => {
+        setShowSubmitModal(false)
+      }}
+    >
+      {"Submitted!"}
+    </Modal>
+    
     <div className="home">
       <SplitPane className="split-pane-row">
         <SplitPaneLeft>

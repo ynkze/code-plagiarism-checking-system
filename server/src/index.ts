@@ -115,22 +115,24 @@ app.get('/run_algo', async (req: Request, res: Response) => {
         case 0: // Levenschtein
             var codeMatch: Array<number> = []
             for (var i=0; i<submissions.length; i++){
-                var maxDist = 0
-                var current = 0
+                var minDist = 999
+                var current = 999
                 for (var j=0; j < submissions.length; j++) {    
                     if (i != j){
                         current = distance(submissions[i].code, submissions[j].code)
-                        maxDist = Math.max(maxDist, current)
+                        minDist = Math.min(minDist, current)
                     }        
                 }
-                codeMatch.push(maxDist)
+                codeMatch.push(minDist)
             }
-
-            submissions.map((submission: any, index: number) => {
-                submission["match_score"] = (codeMatch[index]/(submission.code.length)).toFixed(2)
-                console.log((codeMatch[index]/(submission.code.length)).toFixed(2))
+            
+            // calculate similarity score 
+            var temp: String[] = []
+            submissions.map((sub: any, index: number) => {
+                var score = ((sub.code.length-codeMatch[index])/(sub.code.length)).toFixed(2)
+                temp.push("User: " + sub.name + ", Similarity: " + score + ", Week " + sub.week + " Question " + sub.number) 
             })
-            res.json(submissions)
+            res.json(temp)
             break
 
         case 1: // MOSS
@@ -145,8 +147,7 @@ app.get('/run_algo', async (req: Request, res: Response) => {
                         if (err) throw err;
             
                         fs.appendFile(path, submission.code, function (err: any) {
-                            if (err)
-                            throw err
+                            if (err) throw err
                             }
                         );
                         client.addFile(path, submission.name)
@@ -155,6 +156,7 @@ app.get('/run_algo', async (req: Request, res: Response) => {
 
                 // get the url to view result and cleanup
                 var url = await client.process()
+                url = url.slice(0, -2)
                 res.json(url)
 
             } catch (e: any) {
