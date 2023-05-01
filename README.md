@@ -17,17 +17,18 @@
 
 - Install Docker and Docker Compose.
 - Download and extract the release archive:
+
 ` wget https://github.com/judge0/judge0/releases/download/v1.13.0/judge0-v1.13.0.zip `
 - unzip judge0-v1.13.0.zip
 - Run all services and wait a few seconds until everything is initialized:
+
 <code> cd judge0-v1.13.0
 docker-compose up -d db redis
 sleep 10s
 docker-compose up -d
 sleep 5s </code>
 
-- Your instance of Judge0 CE v1.13.0 is now available at http://<IP ADDRESS OF YOUR SERVER>:2358.
-
+### Just for reference
+- Instance of Judge0 CE v1.13.0 is now available at "http://localhost:2358" (can send request like backend for more info refer to Judge0 API docs https://ce.judge0.com/)
 - language_id used for c(GCC 9.2.0) is id 50
-
-- "/submissions/" encode source code to base64 and set to true => check token dont need set to true
+- "/submissions/" encode source code to base64 and set to true => check token don't need set to true
