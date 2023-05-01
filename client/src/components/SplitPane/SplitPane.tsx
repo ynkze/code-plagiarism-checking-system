@@ -132,9 +132,6 @@ export function SplitPaneLeft(props: any) {
 };
 
 export function SplitPaneRight(props: any) {
-  // const { quotes, currQuote } = useContext(QuoteContext);
-  // const quote = quotes.find((el) => el.id === currQuote);
-
   return (
     <div {...props} className="split-pane-right">
     </div>
